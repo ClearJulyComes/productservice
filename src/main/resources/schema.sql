@@ -4,12 +4,11 @@ CREATE TABLE IF NOT EXISTS Brand (
 );
 
 CREATE TABLE IF NOT EXISTS Product (
-    id          INTEGER                 COMMENT 'Unique id'      PRIMARY KEY AUTO_INCREMENT,
-    brand_id    INTEGER     NOT NULL    COMMENT 'Brand id',
-    name        VARCHAR(50) NOT NULL    COMMENT 'Product name',
-    price       INTEGER     NOT NULL    COMMENT 'Product price',
-    quantity    INTEGER     NOT NULL    COMMENT 'Product quantity',
-    CONSTRAINT UC_Product UNIQUE (brand_id, name),
+    id          INTEGER                         COMMENT 'Unique id'      PRIMARY KEY AUTO_INCREMENT,
+    brand_id    INTEGER     NOT NULL            COMMENT 'Brand id',
+    name        VARCHAR(50) NOT NULL    UNIQUE  COMMENT 'Product name',
+    price       INTEGER     NOT NULL            COMMENT 'Product price',
+    quantity    INTEGER     NOT NULL            COMMENT 'Product quantity',
     FOREIGN KEY (brand_id) REFERENCES Brand (id)
 );
 
