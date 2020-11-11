@@ -1,6 +1,7 @@
 package com.example.productservice.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +15,15 @@ public class Brand {
     @Column(name = "name", nullable = false, length = 50, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "brand_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "brandId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Product> products;
+
+    public Brand(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Brand() {
+    }
 }
