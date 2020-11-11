@@ -6,11 +6,12 @@ import com.example.productservice.model.Brand;
 import com.example.productservice.model.Product;
 import com.example.productservice.model.mapper.CustomMapperFactory;
 import com.example.productservice.model.mapper.MapperFacade;
-import com.example.productservice.model.mapper.ReverseMapperFacadeImpl;
 import com.example.productservice.model.mapper.ViewMapperFacadeImpl;
 import com.example.productservice.service.ProductServiceImpl;
 import com.example.productservice.view.ProductSave;
+import com.example.productservice.view.ProductView;
 import ma.glasnost.orika.MapperFactory;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -22,8 +23,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {CustomMapperFactory.class, ReverseMapperFacadeImpl.class, ProductServiceImpl.class})
+@ContextConfiguration(classes = {CustomMapperFactory.class, ProductServiceImpl.class, ViewMapperFacadeImpl.class})
 public class ProductServiceTest {
 
     @TestConfiguration
@@ -73,5 +76,15 @@ public class ProductServiceTest {
         productServiceImpl.save(productSave);
 
         Mockito.verify(productRepository).save(expected);
+    }
+
+    @Test
+    public void whenGetByName_returnProduct() {
+        Brand brand = new Brand(1, "Test brand");
+        Product product = new Product(1, "Test", 1000, 3, brand);
+        ProductView expected = new ProductView(1, "Test", "Test brand", 1000, 3);
+        Mockito.when(productRepository.findByName("Test")).thenReturn(product);
+        ProductView actual = productServiceImpl.findByName("Test");
+        Assert.assertEquals(expected, actual);
     }
 }
