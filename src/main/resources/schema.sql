@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS Product (
 );
 
 CREATE INDEX IX_Product_Name ON Product (name);
+
+CREATE TABLE IF NOT EXISTS User_Info (
+    id          INTEGER                         COMMENT 'Unique id'      PRIMARY KEY AUTO_INCREMENT,
+    username    VARCHAR(50) NOT NULL    UNIQUE  COMMENT 'Username',
+    password    VARCHAR     NOT NULL            COMMENT 'User password',
+    is_admin    BOOLEAN     NOT NULL            COMMENT 'Admin status'
+);
