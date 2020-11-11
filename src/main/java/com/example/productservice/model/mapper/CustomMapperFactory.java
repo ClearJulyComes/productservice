@@ -1,26 +1,27 @@
 package com.example.productservice.model.mapper;
 
+import com.example.productservice.model.Product;
+import com.example.productservice.view.ProductSave;
+import com.example.productservice.view.ProductView;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Service
-public class CustomMapperFactory implements FactoryBean<MapperFactory> {
-    @Override
-    public MapperFactory getObject() {
-        return new DefaultMapperFactory.Builder()
+@Configuration
+public class CustomMapperFactory  {
+    @Bean
+    public MapperFactory mapperFactory() {
+        MapperFactory mapperFactory = new DefaultMapperFactory.Builder()
                 .constructorResolverStrategy(null)
                 .build();
-    }
-
-    @Override
-    public Class<?> getObjectType() {
-        return MapperFactory.class;
-    }
-
-    @Override
-    public boolean isSingleton() {
-        return true;
+        mapperFactory.classMap(Product.class, ProductView.class)
+                .field("brandId.name", "brand")
+                .byDefault()
+                .register();
+        mapperFactory.classMap(ProductSave.class, Product.class)
+                .byDefault()
+                .register();
+        return mapperFactory;
     }
 }

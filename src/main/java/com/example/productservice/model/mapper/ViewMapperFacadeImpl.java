@@ -17,29 +17,12 @@ public class ViewMapperFacadeImpl implements MapperFacade {
     }
 
     @Override
-    public <Product, D> D map(Product sourceObject, Class<D> destinationClass) {
-        mapperFactory.classMap(sourceObject.getClass(), destinationClass)
-                .field("brandId.name", "brand")
-                .byDefault()
-                .register();
+    public <S, D> D map(S sourceObject, Class<D> destinationClass) {
         return mapperFactory.getMapperFacade().map(sourceObject, destinationClass);
     }
 
     @Override
-    public <Product, D> void map(Product sourceObject, D destinationObject) {
-        mapperFactory.classMap(sourceObject.getClass(), destinationObject.getClass())
-                .field("brandId.name", "brand")
-                .byDefault()
-                .register();
-        mapperFactory.getMapperFacade().map(sourceObject, destinationObject);
-    }
-
-    @Override
-    public <Product, D> List<D> mapAsList(Iterable<Product> source, Class<D> destinationClass) {
-        mapperFactory.classMap(source.getClass(), destinationClass)
-                .field("brandId.name", "brand")
-                .byDefault()
-                .register();
+    public <S, D> List<D> mapAsList(Iterable<S> source, Class<D> destinationClass) {
         return mapperFactory.getMapperFacade().mapAsList(source, destinationClass);
     }
 }

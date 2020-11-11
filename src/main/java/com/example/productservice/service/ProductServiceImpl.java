@@ -9,12 +9,13 @@ import com.example.productservice.serviceinterface.ProductService;
 import com.example.productservice.view.ProductSave;
 import com.example.productservice.view.ProductView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
