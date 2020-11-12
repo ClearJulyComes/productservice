@@ -24,6 +24,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {CustomMapperFactory.class, ProductServiceImpl.class, ViewMapperFacadeImpl.class})
@@ -70,7 +71,7 @@ public class ProductServiceTest {
         expected.setBrandId(brand);
         expected.setPrice(400);
         expected.setQuantity(4);
-        Mockito.when(brandRepository.findByName(productSave.getBrand())).thenReturn(brand);
+        Mockito.when(brandRepository.findByName(productSave.getBrand())).thenReturn(Optional.of(brand));
         Mockito.when(productRepository.save(Mockito.any())).thenReturn(expected);
 
         productServiceImpl.save(productSave);
@@ -83,7 +84,7 @@ public class ProductServiceTest {
         Brand brand = new Brand(1, "Test brand");
         Product product = new Product(1, "Test", 1000, 3, brand);
         ProductView expected = new ProductView(1, "Test", "Test brand", 1000, 3);
-        Mockito.when(productRepository.findByName("Test")).thenReturn(product);
+        Mockito.when(productRepository.findByName("Test")).thenReturn(Optional.of(product));
         ProductView actual = productServiceImpl.findByName("Test");
         Assert.assertEquals(expected, actual);
     }

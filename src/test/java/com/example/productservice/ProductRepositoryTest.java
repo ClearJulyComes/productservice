@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -22,7 +23,8 @@ public class ProductRepositoryTest {
 
     @Test
     public void whenFindByName_returnProduct(){
-        Product actual = productRepository.findByName("Shoes");
+        Product actual = productRepository.findByName("Shoes")
+                .orElseThrow(()->new NoSuchElementException("Product with this name not found"));
         Assert.assertEquals(1000, actual.getPrice());
     }
 
@@ -36,7 +38,8 @@ public class ProductRepositoryTest {
         expected.add(product1);
         expected.add(product2);
 
-        List<Product> actual = productRepository.findProductsByQuantityIsLessThan(5);
+        List<Product> actual = productRepository.findProductsByQuantityIsLessThan(5)
+                .orElseThrow(()->new NoSuchElementException("No leftovers found."));
 
         Assert.assertEquals(expected.toString(), actual.toString());
     }

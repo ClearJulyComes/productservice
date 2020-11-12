@@ -1,6 +1,7 @@
 package com.example.productservice.view;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 public class ProductView {
